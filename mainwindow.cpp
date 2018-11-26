@@ -123,7 +123,11 @@ void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on 
     }
 
 
+    for (int i = 0; i < qv_x.size(); i ++)
+            net_members += (i+1)*2;
 
+    if (qv_x.size()!= 0 and qv_y.size()!= 0)
+            cityPainter.drawEllipse(QPointF(rx_x.back(),rx_y.back()),10,10);
 
 
 

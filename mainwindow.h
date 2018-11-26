@@ -37,6 +37,8 @@ private:
     QVector <int> qv_x,qv_y,x_net,y_net;
     QVector <double> rx_x, rx_y; // vectors for coordinates
     QTimer *timer;
+    double radius_default;
+    int *net_members;
 
 protected:
     void paintEvent(QPaintEvent *e);
