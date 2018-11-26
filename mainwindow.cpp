@@ -11,8 +11,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    timer(new QTimer(this))
-    //game(new GameWidget(this))
+    timer(new QTimer(this)),
+    game(new GameWidget(this))
 {
     timer->setInterval(150);
     ui->setupUi(this);
@@ -28,12 +28,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    //connect(ui->addPointButton,SIGNAL(clicked()),game,SLOT(addPoint(bx_x.value(),bx_y.value())));
-    //connect(game,SIGNAL(environmentChanged(bool)),SLOT(addPoint(bx_x.value(),bx_y.value())));
-   // connect(game,SIGNAL(environmentChanged(bool)),ui->intervalSpinBox,SLOT(setDisabled(bool)));
+    connect(ui->addPointButton,SIGNAL(clicked()),game,SLOT(addPoint(bx_x.value(),bx_y.value())));
+    connect(game,SIGNAL(environmentChanged(bool)),SLOT(addPoint(bx_x.value(),bx_y.value())));
+    connect(game,SIGNAL(environmentChanged(bool)),ui->intervalSpinBox,SLOT(setDisabled(bool)));
     connect(ui->clearButton,SIGNAL(clicked()),SLOT(clearData()));
 
-    //ui->gameLayout->addWidget(game);
+    ui->gameLayout->addWidget(game);
  }
 
 MainWindow::~MainWindow()
