@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     timer->setInterval(150);
     ui->setupUi(this);
-    ui->bx_x->setReadOnly(true);
-    ui->bx_y->setReadOnly(true);
+    //ui->bx_x->setReadOnly(true);
+    //ui->bx_y->setReadOnly(true);
     ui->bx_x->setValue(pos().x());
     ui->bx_y->setValue(pos().y());
     configureSpinBox(ui->bx_x, -INT_MAX, +INT_MAX);
@@ -45,7 +45,7 @@ void MainWindow::addPoint(int x, int y)             //adds the newly added point
 {
     int index_counter = 0;
     int check = 0;
-    for(int element : qv_x)
+    for(int element : qv_x)         //checks if the city is already there
     {
 
         if(element == x)
@@ -57,7 +57,7 @@ void MainWindow::addPoint(int x, int y)             //adds the newly added point
         }
         index_counter++;
     }
-    if(check == 0)
+    if(check == 0)      //if no checks are made -> add city
     {
         qv_x.append(x);
         qv_y.append(y);
@@ -114,7 +114,7 @@ void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on 
     }
 
     QPen net(QColor("red"));
-    net.setWidth(5);
+    net.setWidth(3);
     cityPainter.setPen(net);
 
     if (rx_x.size()!= 0 and rx_y.size()!=0)
@@ -123,12 +123,16 @@ void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on 
     }
 
 
-    for (int i = 0; i < qv_x.size(); i ++)
+    for (int i = 0; i < qv_x.size(); i ++)      //calculate number of points on the net
             net_members += (i+1)*2;
 
-    if (qv_x.size()!= 0 and qv_y.size()!= 0)
-            cityPainter.drawEllipse(QPointF(rx_x.back(),rx_y.back()),10,10);
 
+    QPen ellipse(QColor("black"));              //use this pen for the circle
+        ellipse.setWidth(0.1);
+        cityPainter.setPen(ellipse);
+
+    if (qv_x.size()!= 0 and qv_y.size()!= 0)        //draw the circle
+            cityPainter.drawEllipse(QPointF(rx_x.back(),rx_y.back()),30,30);
 
 
 
