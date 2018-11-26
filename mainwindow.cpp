@@ -57,6 +57,8 @@ void MainWindow::addPoint(int x, int y)             //adds the newly added point
         }
         index_counter++;
     }
+    if((x > 318 or x < 8) or (y > 408 or y < 8))      //checks if the coordinates are inside our playfield
+        check ++;
     if(check == 0)      //if no checks are made -> add city
     {
         qv_x.append(x);
@@ -137,8 +139,8 @@ void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on 
 
 
 
-    //QRect gameLayout(1,1,320,400);
-    //cityPainter.drawRect(gameLayout);;
+    QRect gameLayout(3,3,320,410);
+    cityPainter.drawRect(gameLayout);;
 
 }
 
@@ -160,7 +162,6 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
 void MainWindow::onMouseEvent(const QString &eventName, const QPoint &pos)
 {
     emit environmentChanged(true);
-    qDebug("Clicked");
     ui->bx_x->setValue(pos.x());                //assign position on dot to the spinBox
     ui->bx_y->setValue(pos.y());
     addPoint(pos.x(),pos.y());
