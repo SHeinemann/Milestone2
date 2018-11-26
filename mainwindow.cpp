@@ -43,12 +43,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::addPoint(int x, int y)             //adds the newly added points to the vector
 {
+    int index_counter = 0;
+    int check = 0;
+    for(int element : qv_x)
+    {
 
-    qv_x.append(x);
-    qv_y.append(y);
-    qDebug("Point added.");
-    calculateRadius();                          //calculates radius from the points
-
+        if(element == x)
+        {
+            if(qv_y[index_counter] == y)
+            {
+                check++;
+            }
+        }
+        index_counter++;
+    }
+    if(check == 0)
+    {
+        qv_x.append(x);
+        qv_y.append(y);
+        qDebug("Point added.");
+        calculateRadius();
+    }                     //calculates radius from the points
 
 }
 
