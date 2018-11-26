@@ -37,9 +37,11 @@ private:
     QVector <int> qv_x,qv_y,x_net,y_net;
     QVector <double> rx_x, rx_y; // vectors for coordinates
     QTimer *timer;
-    double radius_default{30};
     int *net_members;
-    double circumference;
+
+    double radius;
+    double circumference = 2*radius*3.14;
+    //double net_distance = circumference/(qv_x.size()*2);        //distance between the points on the elastic net
 
 protected:
     void paintEvent(QPaintEvent *e);

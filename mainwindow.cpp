@@ -128,14 +128,14 @@ void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on 
     for (int i = 0; i < qv_x.size(); i ++)      //calculate number of points on the net
             net_members += (i+1)*2;
 
-    circumference = 30 + 0.8*(2.5*qv_x.size());
+    radius = 30 + 0.8*(2.5*qv_x.size());
 
     QPen ellipse(QColor("black"));              //use this pen for the circle
         ellipse.setWidth(0.1);
         cityPainter.setPen(ellipse);
 
     if (qv_x.size()!= 0 and qv_y.size()!= 0)        //draw the circle
-            cityPainter.drawEllipse(QPointF(rx_x.back(),rx_y.back()),circumference,circumference);
+            cityPainter.drawEllipse(QPointF(rx_x.back(),rx_y.back()),radius,radius);
 
 
 
