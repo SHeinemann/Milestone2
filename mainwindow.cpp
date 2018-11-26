@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connect(ui->addPointButton,SIGNAL(clicked()),game,SLOT(addPoint(bx_x.value(),bx_y.value())));
     //connect(game,SIGNAL(environmentChanged(bool)),SLOT(addPoint(bx_x.value(),bx_y.value())));
-    //connect(game,SIGNAL(environmentChanged(bool)),ui->intervalSpinBox,SLOT(setDisabled(bool)));
+   // connect(game,SIGNAL(environmentChanged(bool)),ui->intervalSpinBox,SLOT(setDisabled(bool)));
     connect(ui->clearButton,SIGNAL(clicked()),SLOT(clearData()));
 
     //ui->gameLayout->addWidget(game);
@@ -41,31 +41,48 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addPoint(int x, int y)
+void MainWindow::addPoint(int x, int y)             //adds the newly added points to the vector
 {
 
     qv_x.append(x);
     qv_y.append(y);
     qDebug("Point added.");
-
+    calculateRadius();                          //calculates radius from the points
 
 
 }
 
-void MainWindow::clearData()
+void MainWindow::calculateRadius()
+{
+    double sum_x = 0;
+    double sum_y = 0;
+    for (int x : qv_x)
+        sum_x += x;
+    rx_x.push_back(sum_x / qv_x.size());
+
+
+    for (int x =0; x < qv_y.size(); x++)
+        sum_y += qv_y[x];
+    rx_y.push_back(sum_y / qv_y.size());
+
+}
+
+void MainWindow::clearData()        //removes all dots from the field
 {
     qDebug("CLeared");
-    qv_x.clear();
+    qv_x.clear();           //clears the city Vector
     qv_y.clear();
+    rx_x.clear();           //clears the radius
+    rx_y.clear();
     update();
 
 }
 
-void MainWindow::paintEvent(QPaintEvent *e)
+void MainWindow::paintEvent(QPaintEvent *e)         //paints the needed dots on the field
 {
     QPainter cityPainter(this);
     //QPainter elasticNetPainter(this);
-    QPen cities(QColor("blue"));
+    QPen cities(QColor("green"));
     //QPen elasticNet(QColor("green"));
     cities.setWidth(5);
     //elasticNet.setWidth(5);
@@ -74,11 +91,20 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 
 
-    if(qv_x.size()!= 0 and qv_y.size()!=0)
+    if(qv_x.size()!= 0 and qv_y.size()!=0)              //if not empty, draw new points
     {
         for (int i = 0; i< qv_x.size(); i++)
             cityPainter.drawPoint(qv_x[i],qv_y[i]);
 
+    }
+
+    QPen net(QColor("red"));
+    net.setWidth(5);
+    cityPainter.setPen(net);
+
+    if (rx_x.size()!= 0 and rx_y.size()!=0)
+    {
+        cityPainter.drawPoint(rx_x.back(),rx_y.back());
     }
 
 
@@ -87,15 +113,16 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 
 
-    //QRect gameLayout(6,6,320,400);
-    //painter.drawRect(gameLayout);;
+
+    //QRect gameLayout(1,1,320,400);
+    //cityPainter.drawRect(gameLayout);;
 
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e)
 {
     emit environmentChanged(true);
-    onMouseEvent("Press",e->pos());
+    onMouseEvent("Press",e->pos());             // if the user clicks
     update();
 
 
@@ -111,7 +138,7 @@ void MainWindow::onMouseEvent(const QString &eventName, const QPoint &pos)
 {
     emit environmentChanged(true);
     qDebug("Clicked");
-    ui->bx_x->setValue(pos.x());
+    ui->bx_x->setValue(pos.x());                //assign position on dot to the spinBox
     ui->bx_y->setValue(pos.y());
     addPoint(pos.x(),pos.y());
 

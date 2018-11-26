@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     void addPoint(int x, int y);
+    void calculateRadius();
 
 
 
@@ -33,7 +34,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
     //GameWidget *game;
-    QVector <int> qv_x,qv_y,x_net,y_net,rx;
+    QVector <int> qv_x,qv_y,x_net,y_net;
+    QVector <double> rx_x, rx_y; // vectors for coordinates
     QTimer *timer;
 
 protected:
